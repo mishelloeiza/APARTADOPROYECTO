@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import vista.bancos.MantenimientoBancos;
 import vista.bancos.MantenimientoTipo_moneda;
 import vista.bancos.MantenimientoTipo_operacion_bancaria;
+import vista.bancos.MantenimientoTasa_cambio_diario;
 import vista.seguridad.MantenimientoUsuario;
 import vista.seguridad.MantenimientoPerfiles;
 import vista.seguridad.MantenimientoAplicacion;
@@ -73,6 +74,7 @@ public class MdiGeneral extends javax.swing.JFrame {
         MantenimientoAplicaciones1 = new javax.swing.JMenuItem();
         MantenimientoTipoOperacionBancaria = new javax.swing.JMenuItem();
         MantenimientoTipoMoneda = new javax.swing.JMenuItem();
+        mnuTasaCambioDiario = new javax.swing.JMenuItem();
         salirSistema1 = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
@@ -224,6 +226,14 @@ public class MdiGeneral extends javax.swing.JFrame {
             }
         });
         MenuMantenimientos1.add(MantenimientoTipoMoneda);
+
+        mnuTasaCambioDiario.setText("Mantenimineto Tasa Cambio Diario");
+        mnuTasaCambioDiario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuTasaCambioDiarioActionPerformed(evt);
+            }
+        });
+        MenuMantenimientos1.add(mnuTasaCambioDiario);
 
         MenuGeneralSeguridad1.add(MenuMantenimientos1);
 
@@ -442,6 +452,20 @@ for (javax.swing.JInternalFrame frame : jDesktopPane1.getAllFrames()) {
        ventana.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
     }//GEN-LAST:event_MantenimientoTipoMonedaActionPerformed
 
+    private void mnuTasaCambioDiarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuTasaCambioDiarioActionPerformed
+        // TODO add your handling code here:
+         for (javax.swing.JInternalFrame frame : jDesktopPane1.getAllFrames()) {
+            frame.dispose(); 
+       }
+       MantenimientoTasa_cambio_diario ventana = new MantenimientoTasa_cambio_diario();
+       jDesktopPane1.add(ventana);
+       Dimension desktopSize = jDesktopPane1.getSize();
+       Dimension FrameSize = ventana.getSize();
+       ventana.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+        
+        
+    }//GEN-LAST:event_mnuTasaCambioDiarioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -500,6 +524,7 @@ for (javax.swing.JInternalFrame frame : jDesktopPane1.getAllFrames()) {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenu mnuAsignaciones;
+    private javax.swing.JMenuItem mnuTasaCambioDiario;
     private javax.swing.JMenuItem salirSistema;
     private javax.swing.JMenuItem salirSistema1;
     // End of variables declaration//GEN-END:variables
