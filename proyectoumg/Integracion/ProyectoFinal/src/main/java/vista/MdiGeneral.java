@@ -13,10 +13,9 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import vista.bancos.MantenimientoBancos;
+import vista.bancos.MantenimientoTipo_cuenta;
 import vista.bancos.MantenimientoTipo_moneda;
 import vista.bancos.MantenimientoTipo_operacion_bancaria;
-import vista.bancos.MantenimientoTasa_cambio_diario;
-import vista.bancos.MantenimientoTipo_pago;
 import vista.seguridad.MantenimientoUsuario;
 import vista.seguridad.MantenimientoPerfiles;
 import vista.seguridad.MantenimientoAplicacion;
@@ -72,11 +71,9 @@ public class MdiGeneral extends javax.swing.JFrame {
         MenuGeneralSeguridad1 = new javax.swing.JMenu();
         MenuMantenimientos1 = new javax.swing.JMenu();
         MantenimientoBancos = new javax.swing.JMenuItem();
-        MantenimientoAplicaciones1 = new javax.swing.JMenuItem();
+        MantenimientoTipo_cuenta = new javax.swing.JMenuItem();
         MantenimientoTipoOperacionBancaria = new javax.swing.JMenuItem();
         MantenimientoTipoMoneda = new javax.swing.JMenuItem();
-        mnuTasaCambioDiario = new javax.swing.JMenuItem();
-        MantenimientoTipoPago = new javax.swing.JMenuItem();
         salirSistema1 = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
@@ -205,13 +202,13 @@ public class MdiGeneral extends javax.swing.JFrame {
         });
         MenuMantenimientos1.add(MantenimientoBancos);
 
-        MantenimientoAplicaciones1.setText("Mantenimiento Tipo de Cuenta");
-        MantenimientoAplicaciones1.addActionListener(new java.awt.event.ActionListener() {
+        MantenimientoTipo_cuenta.setText("Mantenimiento Tipo de Cuenta");
+        MantenimientoTipo_cuenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MantenimientoAplicaciones1ActionPerformed(evt);
+                MantenimientoTipo_cuentaActionPerformed(evt);
             }
         });
-        MenuMantenimientos1.add(MantenimientoAplicaciones1);
+        MenuMantenimientos1.add(MantenimientoTipo_cuenta);
 
         MantenimientoTipoOperacionBancaria.setText("Mantenimiento Tipo de operaciòn bancaria");
         MantenimientoTipoOperacionBancaria.addActionListener(new java.awt.event.ActionListener() {
@@ -228,22 +225,6 @@ public class MdiGeneral extends javax.swing.JFrame {
             }
         });
         MenuMantenimientos1.add(MantenimientoTipoMoneda);
-
-        mnuTasaCambioDiario.setText("Mantenimineto Tasa Cambio Diario");
-        mnuTasaCambioDiario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuTasaCambioDiarioActionPerformed(evt);
-            }
-        });
-        MenuMantenimientos1.add(mnuTasaCambioDiario);
-
-        MantenimientoTipoPago.setText("Mantenimiento Tipo de Pago");
-        MantenimientoTipoPago.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MantenimientoTipoPagoActionPerformed(evt);
-            }
-        });
-        MenuMantenimientos1.add(MantenimientoTipoPago);
 
         MenuGeneralSeguridad1.add(MenuMantenimientos1);
 
@@ -425,9 +406,21 @@ for (javax.swing.JInternalFrame frame : jDesktopPane1.getAllFrames()) {
        ventana.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
     }//GEN-LAST:event_MantenimientoBancosActionPerformed
 
-    private void MantenimientoAplicaciones1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MantenimientoAplicaciones1ActionPerformed
+    private void MantenimientoTipo_cuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MantenimientoTipo_cuentaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_MantenimientoAplicaciones1ActionPerformed
+               
+          // TODO add your handling code here:
+        //       MantenimientoBitacora ventana = new MantenimientoBitacora();
+       for (javax.swing.JInternalFrame frame : jDesktopPane1.getAllFrames()) {
+            frame.dispose(); 
+       }
+       MantenimientoTipo_cuenta ventana = new MantenimientoTipo_cuenta();
+       jDesktopPane1.add(ventana);
+       Dimension desktopSize = jDesktopPane1.getSize();
+       Dimension FrameSize = ventana.getSize();
+       ventana.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
+        
+    }//GEN-LAST:event_MantenimientoTipo_cuentaActionPerformed
 
     private void MantenimientoTipoOperacionBancariaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MantenimientoTipoOperacionBancariaActionPerformed
         // TODO add your handling code here:
@@ -462,32 +455,6 @@ for (javax.swing.JInternalFrame frame : jDesktopPane1.getAllFrames()) {
        ventana.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
     }//GEN-LAST:event_MantenimientoTipoMonedaActionPerformed
 
-    private void mnuTasaCambioDiarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuTasaCambioDiarioActionPerformed
-        // TODO add your handling code here:
-         for (javax.swing.JInternalFrame frame : jDesktopPane1.getAllFrames()) {
-            frame.dispose(); 
-       }
-       MantenimientoTasa_cambio_diario ventana = new MantenimientoTasa_cambio_diario();
-       jDesktopPane1.add(ventana);
-       Dimension desktopSize = jDesktopPane1.getSize();
-       Dimension FrameSize = ventana.getSize();
-       ventana.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
-        
-        
-    }//GEN-LAST:event_mnuTasaCambioDiarioActionPerformed
-
-    private void MantenimientoTipoPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MantenimientoTipoPagoActionPerformed
-        // TODO add your handling code here:
-        for (javax.swing.JInternalFrame frame : jDesktopPane1.getAllFrames()) {
-            frame.dispose(); 
-       }
-       MantenimientoTipo_pago ventana = new MantenimientoTipo_pago();
-       jDesktopPane1.add(ventana);
-       Dimension desktopSize = jDesktopPane1.getSize();
-       Dimension FrameSize = ventana.getSize();
-       ventana.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
-    }//GEN-LAST:event_MantenimientoTipoPagoActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -514,6 +481,7 @@ for (javax.swing.JInternalFrame frame : jDesktopPane1.getAllFrames()) {
             java.util.logging.Logger.getLogger(MdiGeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -530,12 +498,11 @@ for (javax.swing.JInternalFrame frame : jDesktopPane1.getAllFrames()) {
     private javax.swing.JMenu Bitacora;
     private javax.swing.JMenuItem ConsultaBitacora;
     private javax.swing.JMenuItem MantenimientoAplicaciones;
-    private javax.swing.JMenuItem MantenimientoAplicaciones1;
     private javax.swing.JMenuItem MantenimientoBancos;
     private javax.swing.JMenuItem MantenimientoPerfiles;
     private javax.swing.JMenuItem MantenimientoTipoMoneda;
     private javax.swing.JMenuItem MantenimientoTipoOperacionBancaria;
-    private javax.swing.JMenuItem MantenimientoTipoPago;
+    private javax.swing.JMenuItem MantenimientoTipo_cuenta;
     private javax.swing.JMenuItem MantenimientoUsuarios;
     private javax.swing.JMenu MenuGeneralSeguridad;
     private javax.swing.JMenu MenuGeneralSeguridad1;
@@ -547,7 +514,6 @@ for (javax.swing.JInternalFrame frame : jDesktopPane1.getAllFrames()) {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenu mnuAsignaciones;
-    private javax.swing.JMenuItem mnuTasaCambioDiario;
     private javax.swing.JMenuItem salirSistema;
     private javax.swing.JMenuItem salirSistema1;
     // End of variables declaration//GEN-END:variables
