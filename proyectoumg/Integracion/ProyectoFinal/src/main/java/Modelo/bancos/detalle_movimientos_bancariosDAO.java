@@ -6,7 +6,7 @@
 package Modelo.bancos;
 
 import Modelo.seguridad.*;
-import Controlador.bancos.tipo_pago;
+import Controlador.bancos.detalle_movimientos_bancarios;
 import Modelo.Conexion;
 import java.io.File;
 import java.sql.Connection;
@@ -27,38 +27,35 @@ import net.sf.jasperreports.view.JasperViewer;
  *
  * @author visitante
  */
-public class tipo_pagoDAO {
+public class detalle_movimientos_bancariosDAO {
 
-    private static final String SQL_SELECT = "SELECT id_tipo_pago, tipo_pago, status FROM tipo_pago";
-    private static final String SQL_INSERT = "INSERT INTO tipo_pago(tipo_pago, status) VALUES(?,?)";
-    private static final String SQL_UPDATE = "UPDATE tipo_pago SET  tipo_pago=?, status=? WHERE id_tipo_pago = ?";
-    private static final String SQL_DELETE = "DELETE FROM tipo_pago WHERE id_tipo_pago=?";
-    private static final String SQL_QUERY = "SELECT id_tipo_pago, tipo_pago, status FROM tipo_pago WHERE id_tipo_pago = ?";
+    private static final String SQL_SELECT = "SELECT id_detalle, id_movimiento, id_tipo_operacion, id_tipo_pago, tipo_movimiento, monto FROM detalle_movimientos_bancarios";
+    private static final String SQL_INSERT = "INSERT INTO detalle_movimientos_bancarios(id_movimiento, id_tipo_operacion, id_tipo_pago, tipo_movimiento, monto) VALUES(?,?,?,?,?)";
+    private static final String SQL_UPDATE = "UPDATE detalle_movimientos_bancarios SET id_movimiento=?, id_tipo_operacion=?, id_tipo_pago=?, tipo_movimiento=?, monto=? WHERE id_detalle=?";
+    private static final String SQL_DELETE = "DELETE FROM detalle_movimientos_bancarios WHERE id_detalle=?";
+    private static final String SQL_QUERY  = "SELECT id_detalle, id_movimiento, id_tipo_operacion, id_tipo_pago, tipo_movimiento, monto FROM detalle_movimientos_bancarios WHERE id_detalle=?";
 
-    public List<tipo_pago> select() {
+    public List<detalle_movimientos_bancarios> select() {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        tipo_pago tipo_pago = null;
-        List<tipo_pago> list_tipo_pagos = new ArrayList<tipo_pago>();
+        detalle_movimientos_bancarios detalle = null;
+        List<detalle_movimientos_bancarios> detalles = new ArrayList<>();
 
         try {
             conn = Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_SELECT);
             rs = stmt.executeQuery();
+
             while (rs.next()) {
-                int idTipoPago = rs.getInt("id_tipo_pago");
-                String tipoPago = rs.getString("tipo_pago");
-                String Status = rs.getString("status");
-                
-                tipo_pago = new tipo_pago();
-                tipo_pago.setIdTipoPago(idTipoPago);
-                tipo_pago.setTipoPago(tipoPago);
-                tipo_pago.setStatus(Status);
-              
-                
-                list_tipo_pagos.add(tipo_pago);
-              
+                detalle = new detalle_movimientos_bancarios();
+                detalle.setIdDetalle(rs.getInt("id_detalle"));
+                detalle.setIdMovimiento(rs.getInt("id_movimiento"));
+                detalle.setIdTipoOperacion(rs.getInt("id_tipo_operacion"));
+                detalle.setIdTipoPago(rs.getInt("id_tipo_pago"));
+                detalle.setTipoMovimiento(rs.getString("tipo_movimiento"));
+                detalle.setMonto(rs.getFloat("monto"));
+                detalles.add(detalle);
             }
 
         } catch (SQLException ex) {
@@ -69,24 +66,26 @@ public class tipo_pagoDAO {
             Conexion.close(conn);
         }
 
-        return list_tipo_pagos;
+        return detalles;
     }
 
-    public int insert(tipo_pago tipo_pago) {
+    public int insert(detalle_movimientos_bancarios detalle) {
         Connection conn = null;
         PreparedStatement stmt = null;
         int rows = 0;
+
         try {
             conn = Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_INSERT);
-            stmt.setString(1, tipo_pago.getTipoPago());
-            stmt.setString(2, tipo_pago.getStatus());
-         
+            stmt.setInt(1, detalle.getIdMovimiento());
+            stmt.setInt(2, detalle.getIdTipoOperacion());
+            stmt.setInt(3, detalle.getIdTipoPago());
+            stmt.setString(4, detalle.getTipoMovimiento());
+            stmt.setFloat(5, detalle.getMonto());
 
-
-            System.out.println("ejecutando query:" + SQL_INSERT);
+            System.out.println("Ejecutando query: " + SQL_INSERT);
             rows = stmt.executeUpdate();
-            System.out.println("Registros afectados:" + rows);
+            System.out.println("Registros insertados: " + rows);
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
         } finally {
@@ -97,23 +96,24 @@ public class tipo_pagoDAO {
         return rows;
     }
 
-    public int update(tipo_pago tipo_pago) {
+    public int update(detalle_movimientos_bancarios detalle) {
         Connection conn = null;
         PreparedStatement stmt = null;
         int rows = 0;
 
         try {
             conn = Conexion.getConnection();
-            System.out.println("ejecutando query: " + SQL_UPDATE);
             stmt = conn.prepareStatement(SQL_UPDATE);
-            stmt.setString(1, tipo_pago.getTipoPago());
-            stmt.setString(2, tipo_pago.getStatus());
-            stmt.setInt(3,tipo_pago.getIdTipoPago());
-           
+            stmt.setInt(1, detalle.getIdMovimiento());
+            stmt.setInt(2, detalle.getIdTipoOperacion());
+            stmt.setInt(3, detalle.getIdTipoPago());
+            stmt.setString(4, detalle.getTipoMovimiento());
+            stmt.setFloat(5, detalle.getMonto());
+            stmt.setInt(6, detalle.getIdDetalle());
 
+            System.out.println("Ejecutando query: " + SQL_UPDATE);
             rows = stmt.executeUpdate();
-            System.out.println("Registros actualizado:" + rows);
-
+            System.out.println("Registros actualizados: " + rows);
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
         } finally {
@@ -124,18 +124,19 @@ public class tipo_pagoDAO {
         return rows;
     }
 
-    public int delete(tipo_pago tipo_pago) {
+    public int delete(detalle_movimientos_bancarios detalle) {
         Connection conn = null;
         PreparedStatement stmt = null;
         int rows = 0;
 
         try {
             conn = Conexion.getConnection();
-            System.out.println("Ejecutando query:" + SQL_DELETE);
             stmt = conn.prepareStatement(SQL_DELETE);
-            stmt.setInt(1, tipo_pago.getIdTipoPago());
+            stmt.setInt(1, detalle.getIdDetalle());
+
+            System.out.println("Ejecutando query: " + SQL_DELETE);
             rows = stmt.executeUpdate();
-            System.out.println("Registros eliminados:" + rows);
+            System.out.println("Registros eliminados: " + rows);
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
         } finally {
@@ -146,36 +147,27 @@ public class tipo_pagoDAO {
         return rows;
     }
 
-//    public List<Persona> query(Persona vendedor) { // Si se utiliza un ArrayList
-    public tipo_pago query(tipo_pago tipo_pago) {    
+    public detalle_movimientos_bancarios query(detalle_movimientos_bancarios detalle) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        List<tipo_pago> list_tipo_pago = new ArrayList<tipo_pago>();
-        int rows = 0;
 
         try {
             conn = Conexion.getConnection();
-            System.out.println("Ejecutando query:" + SQL_QUERY);
             stmt = conn.prepareStatement(SQL_QUERY);
-            stmt.setInt(1, tipo_pago.getIdTipoPago());
+            stmt.setInt(1, detalle.getIdDetalle());
             rs = stmt.executeQuery();
+
             while (rs.next()) {
-                int idTipoPago = rs.getInt("id_tipo_pago");
-                String tipoPago = rs.getString("tipo_pago");
-                String Status = rs.getString("status");
-                
-                tipo_pago = new tipo_pago();
-                tipo_pago.setIdTipoPago(idTipoPago);
-                tipo_pago.setTipoPago(tipoPago);
-                tipo_pago.setStatus(Status);
-              
-                
-               
-                
-                //vendedores.add(vendedor); // Si se utiliza un ArrayList
+                detalle = new detalle_movimientos_bancarios();
+                detalle.setIdDetalle(rs.getInt("id_detalle"));
+                detalle.setIdMovimiento(rs.getInt("id_movimiento"));
+                detalle.setIdTipoOperacion(rs.getInt("id_tipo_operacion"));
+                detalle.setIdTipoPago(rs.getInt("id_tipo_pago"));
+                detalle.setTipoMovimiento(rs.getString("tipo_movimiento"));
+                detalle.setMonto(rs.getFloat("monto"));
             }
-            //System.out.println("Registros buscado:" + vendedor);
+
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
         } finally {
@@ -184,8 +176,7 @@ public class tipo_pagoDAO {
             Conexion.close(conn);
         }
 
-        //return vendedores;  // Si se utiliza un ArrayList
-        return tipo_pago;
+        return detalle;
     }
     public void imprimirReporte() {
         Connection conn = null;
@@ -196,15 +187,14 @@ public class tipo_pagoDAO {
         try {
             conn = Conexion.getConnection();
             report = JasperCompileManager.compileReport(new File("").getAbsolutePath()
-                    + "/src/main/java/reporte/banco/"+ "ReporteTipoPago.jrxml");
+                    + "/src/main/java/reporte/banco/"+ "ReporteDetalleMovimientosBancarios.jrxml");
             print = JasperFillManager.fillReport(report, p, conn);
             JasperViewer view = new JasperViewer(print, false);
-            view.setTitle("Reporte de Tipos de pagos");
+            view.setTitle("Reporte Detalle de movimientos bancarios");
             view.setVisible(true);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-            
 }
