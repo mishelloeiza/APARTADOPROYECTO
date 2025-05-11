@@ -8,16 +8,18 @@ package vista;
 import Controlador.seguridad.Bitacora;
 import Controlador.seguridad.UsuarioConectado;
 import java.awt.Dimension;
+import java.awt.PopupMenu;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import vista.bancos.MantenimientoBancos;
-import vista.bancos.MantenimientoDetalle_movimientos_bancarios;
 import vista.bancos.MantenimientoTipo_moneda;
 import vista.bancos.MantenimientoTipo_operacion_bancaria;
 import vista.bancos.MantenimientoTasa_cambio_diario;
+import vista.bancos.MantenimientoTipo_cuenta;
 import vista.bancos.MantenimientoTipo_pago;
+import vista.bancos.TransacionalMovimiento_bancario;
 import vista.seguridad.MantenimientoUsuario;
 import vista.seguridad.MantenimientoPerfiles;
 import vista.seguridad.MantenimientoAplicacion;
@@ -29,13 +31,13 @@ import vista.seguridad.AplicacionaUsuariosDEF;
  *
  * @author visitante
  */
-public class MdiBancos extends javax.swing.JFrame {
+public class MdiBancoMan extends javax.swing.JFrame {
 
     /**
      * Creates new form MdiGeneral
      */
     final int APLICACION=99;
-    public MdiBancos() {
+    public MdiBancoMan() {
         initComponents();
         setLocationRelativeTo(null);
         this.setExtendedState(MdiGeneral.MAXIMIZED_BOTH);
@@ -62,6 +64,9 @@ public class MdiBancos extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        jButton9 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -75,9 +80,8 @@ public class MdiBancos extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        jButton8 = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
 
         jMenuItem1.setText("jMenuItem1");
@@ -100,7 +104,7 @@ public class MdiBancos extends javax.swing.JFrame {
             }
         });
 
-        jPanel3.setBackground(new java.awt.Color(51, 51, 255));
+        jPanel3.setBackground(new java.awt.Color(0, 153, 153));
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -147,6 +151,28 @@ public class MdiBancos extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("MENÙ BANCARIO.");
 
+        jButton9.setText("RETORNO A MENÙ GENERAL");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
+        jButton10.setText("👤AYUDAS");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        jButton8.setBackground(new java.awt.Color(255, 102, 102));
+        jButton8.setText("SALIR DEL SISTEMA🏃️");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -159,6 +185,12 @@ public class MdiBancos extends javax.swing.JFrame {
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
+                .addGap(143, 143, 143)
+                .addComponent(jButton10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton8)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -166,7 +198,7 @@ public class MdiBancos extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 6, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -174,10 +206,15 @@ public class MdiBancos extends javax.swing.JFrame {
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton9)
+                            .addComponent(jButton10)
+                            .addComponent(jButton8))))
                 .addContainerGap())
         );
 
+        jPanel1.setBackground(new java.awt.Color(0, 153, 153));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jButton1.setFont(new java.awt.Font("SimSun", 1, 14)); // NOI18N
@@ -190,7 +227,6 @@ public class MdiBancos extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(128, 128, 131));
         jLabel1.setText("MANTENIMIENTOS");
 
         jLabel4.setText("🏦");
@@ -253,15 +289,6 @@ public class MdiBancos extends javax.swing.JFrame {
 
         jLabel7.setText("💰");
 
-        jButton8.setFont(new java.awt.Font("SimSun", 1, 14)); // NOI18N
-        jButton8.setForeground(new java.awt.Color(0, 51, 51));
-        jButton8.setText("DETALLE MOVIMIENTO BANCARIO");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -269,12 +296,14 @@ public class MdiBancos extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
+                        .addGap(29, 29, 29)
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel7))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jButton7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addGap(29, 29, 29)
@@ -288,10 +317,7 @@ public class MdiBancos extends javax.swing.JFrame {
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(39, 39, 39)
-                                .addComponent(jLabel5))))
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel5)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -299,10 +325,10 @@ public class MdiBancos extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel1))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(34, 34, 34)
@@ -315,32 +341,32 @@ public class MdiBancos extends javax.swing.JFrame {
                                 .addGap(41, 41, 41)
                                 .addComponent(jLabel5))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                                 .addComponent(jButton1)
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButton6)))))
                 .addGap(18, 18, 18)
                 .addComponent(jButton3)
                 .addGap(18, 18, 18)
                 .addComponent(jButton4)
-                .addGap(18, 18, 18)
+                .addGap(14, 14, 14)
                 .addComponent(jButton5)
                 .addGap(18, 18, 18)
-                .addComponent(jButton8)
-                .addGap(18, 18, 18)
                 .addComponent(jButton7)
-                .addContainerGap(338, Short.MAX_VALUE))
+                .addContainerGap(416, Short.MAX_VALUE))
         );
 
-        jLabel6.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        jLabel9.setIcon(new javax.swing.ImageIcon("C:\\Users\\user\\Desktop\\FERRARI PROY\\proyectop32k25\\proyectoumg\\Integracion\\ProyectoFinal\\src\\main\\java\\vista\\about.png")); // NOI18N
+
+        jLabel6.setFont(new java.awt.Font("Broadway", 1, 36)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("BIENVENIDO AL SISTEMA BANCARIO");
+        jLabel6.setText("MANTENIMIENTOS SISTEMA BANCARIO");
 
         jDesktopPane1.setLayer(jPanel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jLabel9, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -354,9 +380,9 @@ public class MdiBancos extends javax.swing.JFrame {
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(61, 61, 61)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel6)
-                        .addContainerGap(497, Short.MAX_VALUE))))
+                        .addContainerGap(369, Short.MAX_VALUE))))
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -364,14 +390,14 @@ public class MdiBancos extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                        .addGap(127, 127, 127)
+                        .addComponent(jLabel6))
+                    .addGroup(jDesktopPane1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                        .addGap(126, 126, 126)
-                        .addComponent(jLabel6)))
-                .addContainerGap(41, Short.MAX_VALUE))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         setJMenuBar(jMenuBar1);
@@ -383,39 +409,41 @@ public class MdiBancos extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(340, Short.MAX_VALUE))
+                .addContainerGap(180, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(18, Short.MAX_VALUE)
                 .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(185, 185, 185))
+                .addGap(220, 220, 220))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        // Cierra todas las ventanas internas abiertas
-       // for (javax.swing.JInternalFrame frame : jDesktopPane1.getAllFrames()) {
-        //    frame.dispose();
-        //}
+// Cierra todas las ventanas internas abiertas
+for (javax.swing.JInternalFrame frame : jDesktopPane1.getAllFrames()) {
+    frame.dispose();
+}
 
-        // Crea y muestra la nueva ventana
-        //Tipo_de_cuenta ventana = new Tipo_de_cuenta();
-       // jDesktopPane1.add(ventana);
+// Crea y muestra la nueva ventana
+MantenimientoTipo_cuenta ventana = new MantenimientoTipo_cuenta();
+jDesktopPane1.add(ventana);
+ventana.setVisible(true); // Primero mostrar
 
-        // Centra la ventana dentro del JDesktopPane
-        //Dimension desktopSize = jDesktopPane1.getSize();
-        //Dimension FrameSize = ventana.getSize();
-        //ventana.setLocation(
-            //(desktopSize.width - FrameSize.width) / 2,
-            //(desktopSize.height - FrameSize.height) / 2
-       // );
+// Asegúrate de que el tamaño esté establecido antes de centrar
+ventana.pack(); // O usa ventana.setSize(ancho, alto) 
 
-        //ventana.setVisible(true); // 
+// Ahora céntralo
+Dimension desktopSize = jDesktopPane1.getSize();
+Dimension frameSize = ventana.getSize();
+ventana.setLocation(
+    (desktopSize.width - frameSize.width) / 2,
+    (desktopSize.height - frameSize.height) / 2
+);
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -563,26 +591,30 @@ ventana.setLocation(
 
     }//GEN-LAST:event_jDesktopPane1AncestorAdded
 
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // TODO add your handling code here:
+        MdiGenebac menuGenebac = new MdiGenebac();
+                    menuGenebac.setVisible(true);
+                    this.dispose();
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton10ActionPerformed
+
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
-        // Cierra todas las ventanas internas abiertas
+        // TODO add your handling code here:
         for (javax.swing.JInternalFrame frame : jDesktopPane1.getAllFrames()) {
-            frame.dispose();
+            frame.dispose(); // Cierra cada ventana abierta
         }
-
-        // Crea y muestra la nueva ventana
-        MantenimientoDetalle_movimientos_bancarios ventana = new MantenimientoDetalle_movimientos_bancarios();
-        jDesktopPane1.add(ventana);
-
-        // Centra la ventana dentro del JDesktopPane
-        Dimension desktopSize = jDesktopPane1.getSize();
-        Dimension FrameSize = ventana.getSize();
-        ventana.setLocation(
-            (desktopSize.width - FrameSize.width) / 2,
-            (desktopSize.height - FrameSize.height) / 2
-        );
-
-        ventana.setVisible(true); //
+        //
+        int valor=JOptionPane.showConfirmDialog(this,"¿Està seguro de cerrar?", "Advertencia", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (valor==JOptionPane.YES_OPTION)
+        {
+            JOptionPane.showMessageDialog(null, "Gracias por su visita, hasta pronto", "Gracias", JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0);
+        }
     }//GEN-LAST:event_jButton8ActionPerformed
     public void cerrar(){
         try 
@@ -622,14 +654,20 @@ public static void main(String args[]) {
             }
         }
     } catch (ClassNotFoundException ex) {
-        java.util.logging.Logger.getLogger(MdiBancos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        java.util.logging.Logger.getLogger(MdiBancoMan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
     } catch (InstantiationException ex) {
-        java.util.logging.Logger.getLogger(MdiBancos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        java.util.logging.Logger.getLogger(MdiBancoMan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
     } catch (IllegalAccessException ex) {
-        java.util.logging.Logger.getLogger(MdiBancos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        java.util.logging.Logger.getLogger(MdiBancoMan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
     } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-        java.util.logging.Logger.getLogger(MdiBancos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        java.util.logging.Logger.getLogger(MdiBancoMan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
     }
+    //</editor-fold>
+    //</editor-fold>
+    //</editor-fold>
+    //</editor-fold>
+    //</editor-fold>
+    //</editor-fold>
     //</editor-fold>
     //</editor-fold>
 
@@ -639,7 +677,7 @@ public static void main(String args[]) {
     /* Create and display the form */
     java.awt.EventQueue.invokeLater(new Runnable() {
         public void run() {
-            new MdiBancos().setVisible(true);
+            new MdiBancoMan().setVisible(true);
         }
     });
 }
@@ -647,6 +685,7 @@ public static void main(String args[]) {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -654,6 +693,7 @@ public static void main(String args[]) {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -673,4 +713,10 @@ public static void main(String args[]) {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     // End of variables declaration//GEN-END:variables
+
+    private static class mdiBancopro {
+
+        public mdiBancopro() {
+        }
+    }
 }
