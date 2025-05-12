@@ -20,6 +20,7 @@ import vista.bancos.MantenimientoTasa_cambio_diario;
 import vista.bancos.MantenimientoTipo_pago;
 import vista.bancos.TransacionalConciliacion_bancaria;
 import vista.bancos.TransacionalMovimiento_bancario;
+import vista.bancos.MantenimientoCuentas_bancarias;
 import vista.seguridad.MantenimientoUsuario;
 import vista.seguridad.MantenimientoPerfiles;
 import vista.seguridad.MantenimientoAplicacion;
@@ -32,18 +33,13 @@ import vista.seguridad.AplicacionaUsuariosDEF;
  * @author visitante
  */
 public class MdiBancoPro extends javax.swing.JFrame {
-
     /**
      * Creates new form MdiGeneral
      */
     final int APLICACION=99;
     public MdiBancoPro() {
         initComponents();
-        setLocationRelativeTo(null);
-        this.setExtendedState(MdiGeneral.MAXIMIZED_BOTH);
-        this.setTitle("Ejemplo Capas");
-        //setDefaultCloseOperation(EXIT_ON_CLOSE);
-        cerrar();
+
     }
 
     /**
@@ -73,8 +69,10 @@ public class MdiBancoPro extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        btnMoviminetoBancario = new javax.swing.JButton();
+        btnConciliacion = new javax.swing.JButton();
         btnMoviminetoBancario1 = new javax.swing.JButton();
+        btnctsbancarias = new javax.swing.JButton();
+        btnDetalleMovimineto = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -221,12 +219,12 @@ public class MdiBancoPro extends javax.swing.JFrame {
 
         jLabel7.setText("💰");
 
-        btnMoviminetoBancario.setFont(new java.awt.Font("SimSun", 1, 18)); // NOI18N
-        btnMoviminetoBancario.setForeground(new java.awt.Color(0, 51, 51));
-        btnMoviminetoBancario.setText("Conciliacion Bancaria");
-        btnMoviminetoBancario.addActionListener(new java.awt.event.ActionListener() {
+        btnConciliacion.setFont(new java.awt.Font("SimSun", 1, 18)); // NOI18N
+        btnConciliacion.setForeground(new java.awt.Color(0, 51, 51));
+        btnConciliacion.setText("Conciliacion Bancaria");
+        btnConciliacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMoviminetoBancarioActionPerformed(evt);
+                btnConciliacionActionPerformed(evt);
             }
         });
 
@@ -236,6 +234,24 @@ public class MdiBancoPro extends javax.swing.JFrame {
         btnMoviminetoBancario1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMoviminetoBancario1ActionPerformed(evt);
+            }
+        });
+
+        btnctsbancarias.setFont(new java.awt.Font("SimSun", 1, 18)); // NOI18N
+        btnctsbancarias.setForeground(new java.awt.Color(0, 51, 51));
+        btnctsbancarias.setText("Cuentas bancarias");
+        btnctsbancarias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnctsbancariasActionPerformed(evt);
+            }
+        });
+
+        btnDetalleMovimineto.setFont(new java.awt.Font("SimSun", 1, 18)); // NOI18N
+        btnDetalleMovimineto.setForeground(new java.awt.Color(0, 51, 51));
+        btnDetalleMovimineto.setText("Detalle movimineto bancario");
+        btnDetalleMovimineto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDetalleMoviminetoActionPerformed(evt);
             }
         });
 
@@ -262,7 +278,9 @@ public class MdiBancoPro extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(39, 39, 39)
                                 .addComponent(jLabel5))))
-                    .addComponent(btnMoviminetoBancario, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnConciliacion, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnctsbancarias, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDetalleMovimineto, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -290,11 +308,13 @@ public class MdiBancoPro extends javax.swing.JFrame {
                                 .addComponent(btnMoviminetoBancario1)
                                 .addGap(13, 13, 13)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnMoviminetoBancario)
+                .addComponent(btnConciliacion)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnctsbancarias)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnDetalleMovimineto)
                 .addContainerGap(587, Short.MAX_VALUE))
         );
-
-        jLabel9.setIcon(new javax.swing.ImageIcon("C:\\Users\\user\\Desktop\\FERRARI PROY\\proyectop32k25\\proyectoumg\\Integracion\\ProyectoFinal\\src\\main\\java\\vista\\about.png")); // NOI18N
 
         jLabel6.setFont(new java.awt.Font("Broadway", 1, 36)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
@@ -365,7 +385,7 @@ public class MdiBancoPro extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jDesktopPane1AncestorAdded
 
-    private void btnMoviminetoBancarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoviminetoBancarioActionPerformed
+    private void btnConciliacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConciliacionActionPerformed
         // TODO add your handling code here:
         
            for (javax.swing.JInternalFrame frame : jDesktopPane1.getAllFrames()) {
@@ -386,7 +406,7 @@ public class MdiBancoPro extends javax.swing.JFrame {
 
         
         
-    }//GEN-LAST:event_btnMoviminetoBancarioActionPerformed
+    }//GEN-LAST:event_btnConciliacionActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
@@ -417,34 +437,51 @@ public class MdiBancoPro extends javax.swing.JFrame {
 
     private void btnMoviminetoBancario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoviminetoBancario1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnMoviminetoBancario1ActionPerformed
-    public void cerrar(){
-        try 
-        {
-            this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            addWindowListener(new WindowAdapter() 
-            {
-                public void windowClosing(WindowEvent e) 
-                {
-                    confirmarSalida();
-                }
-            });
-            this.setVisible(true);
-        } catch (Exception e) 
-        {
-            e.printStackTrace();
+        
+           for (javax.swing.JInternalFrame frame : jDesktopPane1.getAllFrames()) {
+            frame.dispose();
         }
-    }    
-    public void confirmarSalida() 
-    {
-        int valor=JOptionPane.showConfirmDialog(this,"¿Està seguro de cerrar?", "Advertencia", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-                    if (valor==JOptionPane.YES_OPTION) 
-                    {
-                        JOptionPane.showMessageDialog(null, "Gracias por su visita, hasta pronto", "Gracias", JOptionPane.INFORMATION_MESSAGE);
-                        System.exit(0);
-                    }
-    }
+
+        // Crea y muestra la nueva ventana
+        TransacionalMovimiento_bancario ventana = new  TransacionalMovimiento_bancario();
+        jDesktopPane1.add(ventana);
+
+        // Centra la ventana dentro del JDesktopPane
+        Dimension desktopSize = jDesktopPane1.getSize();
+        Dimension FrameSize = ventana.getSize();
+        ventana.setLocation(
+            (desktopSize.width - FrameSize.width) / 2,
+            (desktopSize.height - FrameSize.height) / 2
+        );
+        
+    }//GEN-LAST:event_btnMoviminetoBancario1ActionPerformed
+
+    private void btnctsbancariasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnctsbancariasActionPerformed
+        // TODO add your handling code here:
+            for (javax.swing.JInternalFrame frame : jDesktopPane1.getAllFrames()) {
+            frame.dispose();
+        }
+
+        // Crea y muestra la nueva ventana
+       MantenimientoCuentas_bancarias  ventana = new  MantenimientoCuentas_bancarias();
+        jDesktopPane1.add(ventana);
+
+        // Centra la ventana dentro del JDesktopPane
+        Dimension desktopSize = jDesktopPane1.getSize();
+        Dimension FrameSize = ventana.getSize();
+        ventana.setLocation(
+            (desktopSize.width - FrameSize.width) / 2,
+            (desktopSize.height - FrameSize.height) / 2
+        );
+        
+    }//GEN-LAST:event_btnctsbancariasActionPerformed
+
+    private void btnDetalleMoviminetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetalleMoviminetoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDetalleMoviminetoActionPerformed
+ 
     
+     
 public static void main(String args[]) {
     /* Set the Nimbus look and feel */
     //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -494,8 +531,10 @@ public static void main(String args[]) {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnMoviminetoBancario;
+    private javax.swing.JButton btnConciliacion;
+    private javax.swing.JButton btnDetalleMovimineto;
     private javax.swing.JButton btnMoviminetoBancario1;
+    private javax.swing.JButton btnctsbancarias;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton9;
