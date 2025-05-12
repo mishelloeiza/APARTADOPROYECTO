@@ -111,7 +111,7 @@ public class MantenimientoTipo_moneda extends javax.swing.JInternalFrame {
         label5 = new javax.swing.JLabel();
         lb = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnAyudaMoneda = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
         lb2.setForeground(new java.awt.Color(204, 204, 204));
@@ -212,10 +212,10 @@ public class MantenimientoTipo_moneda extends javax.swing.JInternalFrame {
 
         jButton1.setText("jButton1");
 
-        jButton2.setText("Ayuda");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnAyudaMoneda.setText("Ayuda");
+        btnAyudaMoneda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnAyudaMonedaActionPerformed(evt);
             }
         });
 
@@ -271,7 +271,7 @@ public class MantenimientoTipo_moneda extends javax.swing.JInternalFrame {
                                     .addComponent(jButton1)
                                     .addGap(70, 70, 70))
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(jButton2)
+                                    .addComponent(btnAyudaMoneda)
                                     .addGap(135, 135, 135))
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jButton3)
@@ -317,7 +317,7 @@ public class MantenimientoTipo_moneda extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(label4)
                             .addComponent(cbox_empleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2))
+                            .addComponent(btnAyudaMoneda))
                         .addGap(18, 18, 18)
                         .addComponent(jButton3))
                     .addGroup(layout.createSequentialGroup()
@@ -431,13 +431,13 @@ resultadoBitacora = bitacoraRegistro.setIngresarBitacora(UsuarioConectado.getIdU
         Dimension FrameSize = ventana.getSize();
         ventana.setLocation((desktopSize.width - FrameSize.width) / 2, (desktopSize.height - FrameSize.height) / 2);
     */
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnAyudaMonedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAyudaMonedaActionPerformed
         // TODO add your handling code here:
         try {
-            if ((new File("src\\main\\java\\ayudas\\ProcesoMayor.chm")).exists()) {
+            if ((new File("src\\main\\java\\ayudas\\banco\\AyudaMonedas.chm")).exists()) {
                 Process p = Runtime
                         .getRuntime()
-                        .exec("rundll32 url.dll,FileProtocolHandler src\\main\\java\\ayudas\\ProcesoMayor.chm");
+                        .exec("rundll32 url.dll,FileProtocolHandler src\\main\\java\\ayudas\\banco\\AyudaMonedas.chm");
                 p.waitFor();
             } else {
                 System.out.println("La ayuda no Fue encontrada");
@@ -446,7 +446,7 @@ resultadoBitacora = bitacoraRegistro.setIngresarBitacora(UsuarioConectado.getIdU
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnAyudaMonedaActionPerformed
 private Connection connectio = null;
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
@@ -475,6 +475,7 @@ private Connection connectio = null;
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAyudaMoneda;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnLimpiar;
@@ -482,7 +483,6 @@ private Connection connectio = null;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JComboBox<String> cbox_empleado;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel label1;

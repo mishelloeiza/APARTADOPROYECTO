@@ -420,10 +420,10 @@ public class MantenimientoTipo_cuenta extends javax.swing.JInternalFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         try {
-            if ((new File("src\\main\\java\\ayudas\\ProcesoMayor.chm")).exists()) {
+            if ((new File("src\\main\\java\\ayudas\\banco\\AyudaTipocuenta.chm")).exists()) {
                 Process p = Runtime
                         .getRuntime()
-                        .exec("rundll32 url.dll,FileProtocolHandler src\\main\\java\\ayudas\\ProcesoMayor.chm");
+                        .exec("rundll32 url.dll,FileProtocolHandler src\\main\\java\\ayudas\\banco\\AyudaTipocuenta.chm");
                 p.waitFor();
             } else {
                 System.out.println("La ayuda no Fue encontrada");
@@ -442,7 +442,7 @@ public class MantenimientoTipo_cuenta extends javax.swing.JInternalFrame {
         try {
             connectio = Conexion.getConnection();
             report = JasperCompileManager.compileReport(new File("").getAbsolutePath()
-                    + "/src/main/java/reporte/banco/reporteTipoCuenta2.jrxml");
+                    + "/src/main/java/reporte/banco/reporteTipoCuenta.jrxml");
 //
             print = JasperFillManager.fillReport(report, p, connectio);
 

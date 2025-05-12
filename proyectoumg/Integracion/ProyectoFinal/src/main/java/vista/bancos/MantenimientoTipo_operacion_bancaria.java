@@ -13,6 +13,16 @@ import javax.swing.table.DefaultTableModel;
 import java.io.File;
 import Controlador.seguridad.Bitacora;
 import Controlador.seguridad.UsuarioConectado;
+import Modelo.Conexion;
+import java.sql.Connection;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 //MANTENIMINETO CREADO POR Anderson Cristofer Rodríguez Pivaral 
 
@@ -387,11 +397,29 @@ int APLICACION=104;
             ex.printStackTrace();
         }*/
     }//GEN-LAST:event_jButton3ActionPerformed
-
+ private Connection connectio = null;
     private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
         // TODO add your handling code here:
-        tipo_operacion_bancariaDAO tipo_operacion_bancariaDAO = new tipo_operacion_bancariaDAO();
-        tipo_operacion_bancariaDAO.imprimirReporte();
+            
+        Map p = new HashMap();
+        JasperReport report;
+        JasperPrint print;
+
+        try {
+            connectio = Conexion.getConnection();
+            report = JasperCompileManager.compileReport(new File("").getAbsolutePath()
+                    + "/src/main/java/reporte/banco/ReporteTipoOperacionBancaria.jrxml");
+//
+            print = JasperFillManager.fillReport(report, p, connectio);
+
+            JasperViewer view = new JasperViewer(print, false);
+
+            view.setTitle("Prueba reporte");
+            view.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al generar el reporte: " + e.getMessage());
+        }
     }//GEN-LAST:event_btnReporteActionPerformed
 
 
