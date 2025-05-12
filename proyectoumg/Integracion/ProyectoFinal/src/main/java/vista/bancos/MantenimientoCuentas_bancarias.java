@@ -5,10 +5,12 @@
  */
 package vista.bancos;
 
+import vista.seguridad.*;
 import Modelo.bancos.cuentas_bancariasDAO;
 import Controlador.bancos.cuentas_bancarias;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import java.io.File;
 import Controlador.seguridad.Bitacora;
 import Controlador.seguridad.UsuarioConectado;
 import java.io.File;
@@ -18,57 +20,55 @@ import javax.swing.JOptionPane;
 
 
 public class MantenimientoCuentas_bancarias extends javax.swing.JInternalFrame {
-    int APLICACION = 105;
+    int APLICACION = 110;
 
     public void llenadoDeCombos() {
         cuentas_bancariasDAO cuentas_bancariasDAO = new cuentas_bancariasDAO();
-        List<cuentas_bancarias> cuentas = cuentas_bancariasDAO.select();
+        List<cuentas_bancarias> salon = cuentas_bancariasDAO.select();
         cbox_empleado.addItem("Seleccione una opción");
-        for (int i = 0; i < cuentas.size(); i++) {
-            cbox_empleado.addItem(String.valueOf(cuentas.get(i).getId_cuenta()));
+        for (int i = 0; i < salon.size(); i++) {
+            cbox_empleado.addItem(String.valueOf(salon.get(i).getId_cuenta()));
         }
     }
 
     public void llenadoDeTablas() {
         DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("id_cuenta");
+        modelo.addColumn("id_banco");
         modelo.addColumn("id_tipo_cuenta");
-        modelo.addColumn("tipo_cuenta");
-        modelo.addColumn ("estatus");
+        modelo.addColumn("id_tipo_moneda");
+        modelo.addColumn ("saldo");
 
 
         cuentas_bancariasDAO cuentas_bancariasDAO = new cuentas_bancariasDAO();
-        List<cuentas_bancarias> cuentas_bancariass = cuentas_bancariasDAO.select();
+        List<cuentas_bancarias> lista = cuentas_bancariasDAO.select();
         tablaCuentas_bancarias.setModel(modelo);
 
         String[] dato = new String[5];
-        for (int i = 0; i < cuentas_bancariass.size(); i++) {
-            dato[0] = String.valueOf(cuentas_bancariass.get(i).getId_cuenta());       // id_cuenta (int)
-            dato[1] = String.valueOf(cuentas_bancariass.get(i).getId_banco());        // id_banco (int)
-            dato[2] = String.valueOf(cuentas_bancariass.get(i).getId_tipo_cuenta());  // id_tipo_cuenta (int)
-            dato[3] = String.valueOf(cuentas_bancariass.get(i).getId_tipo_moneda());  // id_tipo_moneda (int)
-            dato[4] = String.format("%.2f", cuentas_bancariass.get(i).getSaldo());    // saldo (double con 2 decimales)
-
+        for (cuentas_bancarias cuenta : lista) {
+            dato[0] = Integer.toString(cuenta.getId_cuenta());       // id_cuenta 
+            dato[1] = Integer.toString(cuenta.getId_banco());        // id_banco 
+            dato[2] = Integer.toString(cuenta.getId_tipo_cuenta()); 
+            dato[3] = Integer.toString(cuenta.getId_tipo_moneda());  // id_tipo_moneda 
+            dato[4] = Float.toString(cuenta.getSaldo());    // saldo 
+            modelo.addRow(dato);
         }
     }
 
-    public void buscarCuenta() {
-           cuentas_bancarias cuentasBancariasConsultar = new cuentas_bancarias();
-        cuentas_bancariasDAO cuentas_bancariasDAO = new cuentas_bancariasDAO();
-cuentasBancariasConsultar.setId_banco(Integer.parseInt(txtBanco.getText()));
-cuentasBancariasConsultar.setId_tipo_cuenta(Integer.parseInt(txtTipoCuenta.getText()));
-cuentasBancariasConsultar.setId_tipo_moneda(Integer.parseInt(txtMoneda.getText()));
-cuentasBancariasConsultar.setSaldo(Double.parseDouble(txtSaldo.getText())); // corregido
-
-       txtBanco.setText(String.valueOf(cuentasBancariasConsultar.getId_banco()));
-        txtTipoCuenta.setText(String.valueOf(cuentasBancariasConsultar.getId_tipo_cuenta()));
-        txtMoneda.setText(String.valueOf(cuentasBancariasConsultar.getId_tipo_moneda()));
-        txtSaldo.setText(String.format("%.2f", cuentasBancariasConsultar.getSaldo()));
+ public void buscarCuenta() {
+     
+        cuentas_bancarias cuentaAConsultar = new cuentas_bancarias();
+        cuentas_bancariasDAO dao = new cuentas_bancariasDAO();
+        cuentaAConsultar.setId_cuenta(Integer.parseInt(txtbuscado.getText()));
+        cuentaAConsultar = dao.query(cuentaAConsultar);
         
-         int resultadoBitacora = 0;
+        txtBanco.setText(Integer.toString(cuentaAConsultar.getId_banco()));
+        txtTipoCuenta.setText(Integer.toString(cuentaAConsultar.getId_tipo_cuenta()));
+        txtMoneda.setText(Integer.toString(cuentaAConsultar.getId_tipo_moneda()));
+        txtSaldo.setText(Float.toString(cuentaAConsultar.getSaldo()));
+        
         Bitacora bitacoraRegistro = new Bitacora();
-        resultadoBitacora = bitacoraRegistro.setIngresarBitacora(
-            UsuarioConectado.getIdUsuario(), APLICACION, "Buscar Datos cuentas_bancarias"
-        );
+        bitacoraRegistro.setIngresarBitacora(UsuarioConectado.getIdUsuario(), APLICACION, "Buscar Datos cuentas_bancarias");
     }
 
     public MantenimientoCuentas_bancarias() {
@@ -110,6 +110,8 @@ cuentasBancariasConsultar.setSaldo(Double.parseDouble(txtSaldo.getText())); // c
         txtTipoCuenta = new javax.swing.JTextField();
         txtMoneda = new javax.swing.JTextField();
         txtSaldo = new javax.swing.JTextField();
+        label8 = new javax.swing.JLabel();
+        txtId = new javax.swing.JTextField();
 
         lb2.setForeground(new java.awt.Color(204, 204, 204));
         lb2.setText(".");
@@ -166,16 +168,16 @@ cuentasBancariasConsultar.setSaldo(Double.parseDouble(txtSaldo.getText())); // c
         tablaCuentas_bancarias.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         tablaCuentas_bancarias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "id_cuentas_bancarias", "id_bancos", "id_tipo_moneda", "saldo"
+                "id_cuentas_bancarias", "id_bancos", "id_tipo_cuentas", "id_tipo_moneda", "saldo"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, true
+                false, false, true, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -233,6 +235,12 @@ cuentasBancariasConsultar.setSaldo(Double.parseDouble(txtSaldo.getText())); // c
         txtSaldo.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         txtSaldo.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
+        label8.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        label8.setText("ID ");
+
+        txtId.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtId.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -240,30 +248,12 @@ cuentasBancariasConsultar.setSaldo(Double.parseDouble(txtSaldo.getText())); // c
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtbuscado, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(358, 358, 358)
-                        .addComponent(lb, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(label3)
                                 .addGap(44, 44, 44)
-                                .addComponent(txtBanco, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE))
+                                .addComponent(txtBanco, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(label5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -276,11 +266,37 @@ cuentasBancariasConsultar.setSaldo(Double.parseDouble(txtSaldo.getText())); // c
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtSaldo)
-                            .addComponent(txtMoneda))))
+                            .addComponent(txtMoneda)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtbuscado, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(label8)
+                                .addGap(294, 294, 294)
+                                .addComponent(lb, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(108, 108, 108)
+                        .addComponent(txtId)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton2)
@@ -302,7 +318,13 @@ cuentasBancariasConsultar.setSaldo(Double.parseDouble(txtSaldo.getText())); // c
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lb)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lb)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(9, 9, 9)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(label8)
+                                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(label3)
@@ -342,58 +364,33 @@ cuentasBancariasConsultar.setSaldo(Double.parseDouble(txtSaldo.getText())); // c
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
       // TODO add your handling code here:
-        cuentas_bancariasDAO cuentas_bancariasDAO = new cuentas_bancariasDAO();
-        cuentas_bancarias cuentasBancariasAEliminar = new cuentas_bancarias();
-        cuentasBancariasAEliminar.setId_banco(Integer.parseInt(txtBanco.getText()));
-        cuentasBancariasAEliminar.setId_tipo_cuenta(Integer.parseInt(txtTipoCuenta.getText()));
-        cuentasBancariasAEliminar.setId_tipo_moneda(Integer.parseInt(txtMoneda.getText()));
-        cuentasBancariasAEliminar.setSaldo(Double.parseDouble(txtSaldo.getText())); // <- aquí el cambio
+        cuentas_bancariasDAO dao = new cuentas_bancariasDAO();
+        cuentas_bancarias cuentaAEliminar = new cuentas_bancarias();
+        cuentaAEliminar.setId_cuenta(Integer.parseInt(txtbuscado.getText()));
+        dao.delete(cuentaAEliminar);
         
         llenadoDeTablas();
+        
+        Bitacora bitacoraRegistro = new Bitacora();
+        bitacoraRegistro.setIngresarBitacora(UsuarioConectado.getIdUsuario(), APLICACION, "Eliminar Datos cuentas_bancarias");
       
-      UsuarioConectado usuarioEnSesion = new UsuarioConectado();
-      int resultadoBitacora = 0;
-      Bitacora bitacoraRegistro = new Bitacora();
-      resultadoBitacora = bitacoraRegistro.setIngresarBitacora(usuarioEnSesion.getIdUsuario(), APLICACION, "Eliminar Datos cuentas_bancarias");
-
+    
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
- // Instancia de tipo_monedaDAO
-      cuentas_bancariasDAO cuentas_bancariasDAO = new cuentas_bancariasDAO();
-
-// Verifica si el tipo de moneda ya existe
-    if (cuentas_bancariasDAO.existeTipoCuenta(txtBanco.getText())) {
         
-        // Si el tipo de moneda ya existe, muestra un mensaje de error
-        JOptionPane.showMessageDialog(null, "¡El tipo de cuenta ya existe en la base de datos!", "Error", JOptionPane.ERROR_MESSAGE);
-    } else {
-        // Si no existe, proceder con la inserción
-        cuentas_bancarias cuentasBancariasAInsertar = new cuentas_bancarias();
-        cuentasBancariasAInsertar.setId_banco(Integer.parseInt(txtBanco.getText()));
-        cuentasBancariasAInsertar.setId_tipo_cuenta(Integer.parseInt(txtTipoCuenta.getText()));
-        cuentasBancariasAInsertar.setId_tipo_moneda(Integer.parseInt(txtMoneda.getText()));
-        cuentasBancariasAInsertar.setSaldo(Double.parseDouble(txtSaldo.getText()));
+        cuentas_bancariasDAO dao = new cuentas_bancariasDAO();
+        cuentas_bancarias cuentaAInsertar = new cuentas_bancarias();
+        cuentaAInsertar.setId_banco(Integer.parseInt(txtBanco.getText()));
+        cuentaAInsertar.setId_tipo_cuenta(Integer.parseInt(txtTipoCuenta.getText()));
+        cuentaAInsertar.setId_tipo_moneda(Integer.parseInt(txtMoneda.getText()));
+        cuentaAInsertar.setSaldo(Float.parseFloat(txtSaldo.getText()));
+        dao.insert(cuentaAInsertar);
         
-        // Inserta el nuevo tipo de moneda
-        int resultado = cuentas_bancariasDAO.insert(cuentasBancariasAInsertar);
+        llenadoDeTablas();
         
-        // Verifica si la inserción fue exitosa
-        if (resultado > 0) {
-            // Si la inserción fue exitosa, muestra un mensaje de éxito
-            JOptionPane.showMessageDialog(null, "Cuenta Bancaria insertada correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            
-            llenadoDeTablas();
-            
-            // Registrar el evento en la bitácora
-            UsuarioConectado usuarioEnSesion = new UsuarioConectado();
-            Bitacora bitacoraRegistro = new Bitacora();
-            bitacoraRegistro.setIngresarBitacora(usuarioEnSesion.getIdUsuario(), APLICACION, "Insertar Datos cuentas_bancarias");
-        } else {
-            // Si la inserción falló, muestra un mensaje de error
-            JOptionPane.showMessageDialog(null, "Error al insertar la Cuenta Bancaria.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
+        Bitacora bitacoraRegistro = new Bitacora();
+        bitacoraRegistro.setIngresarBitacora(UsuarioConectado.getIdUsuario(), APLICACION, "Insertar Datos cuentas_bacarias");
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
@@ -402,35 +399,38 @@ cuentasBancariasConsultar.setSaldo(Double.parseDouble(txtSaldo.getText())); // c
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-cuentas_bancariasDAO cuentas_bancariasDAO = new cuentas_bancariasDAO();
-        cuentas_bancarias cuentasBancariasAActualizar = new cuentas_bancarias();
-        cuentasBancariasAActualizar.setId_banco(Integer.parseInt(txtBanco.getText()));
-        cuentasBancariasAActualizar.setId_tipo_cuenta(Integer.parseInt(txtTipoCuenta.getText()));
-        cuentasBancariasAActualizar.setId_tipo_moneda(Integer.parseInt(txtMoneda.getText()));
-        cuentasBancariasAActualizar.setSaldo(Double.parseDouble(txtSaldo.getText()));
-        cuentas_bancariasDAO.update(cuentasBancariasAActualizar);
+
+        // TODO add your handling code here:
+        cuentas_bancariasDAO dao = new cuentas_bancariasDAO();
+        cuentas_bancarias cuentaAActualizar = new cuentas_bancarias();
+        
+        cuentaAActualizar.setId_banco(Integer.parseInt(txtBanco.getText()));
+        cuentaAActualizar.setId_tipo_cuenta(Integer.parseInt(txtTipoCuenta.getText()));
+        cuentaAActualizar.setId_tipo_moneda(Integer.parseInt(txtMoneda.getText()));
+        cuentaAActualizar.setSaldo(Float.parseFloat(txtSaldo.getText()));
+        dao.update(cuentaAActualizar);
         
         llenadoDeTablas();
-
-int resultadoBitacora = 0;
-Bitacora bitacoraRegistro = new Bitacora();
-resultadoBitacora = bitacoraRegistro.setIngresarBitacora(UsuarioConectado.getIdUsuario(), APLICACION, "Modificar Datos cuentas_bancarias");
-
+        
+        Bitacora bitacoraRegistro = new Bitacora();
+        bitacoraRegistro.setIngresarBitacora(UsuarioConectado.getIdUsuario(), APLICACION, "Modificar Datos cuentas_bancarias");
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        
         cbox_empleado.setSelectedIndex(0);
         txtBanco.setText("");
         txtTipoCuenta.setText("");
         txtMoneda.setText("");
         txtSaldo.setText("");
+        txtbuscado.setText("");
         btnRegistrar.setEnabled(true);
         btnModificar.setEnabled(true);
         btnEliminar.setEnabled(true);
-
-int resultadoBitacora = 0;
-Bitacora bitacoraRegistro = new Bitacora();
-resultadoBitacora = bitacoraRegistro.setIngresarBitacora(UsuarioConectado.getIdUsuario(), APLICACION, "Limpiar Datos cuentas_bancarias");
+        
+        int resultadoBitacora=0;
+        Bitacora bitacoraRegistro = new Bitacora();
+        resultadoBitacora = bitacoraRegistro.setIngresarBitacora(UsuarioConectado.getIdUsuario(), APLICACION,  "Limpiar Datos cuentas_bancarias");    
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void cbox_empleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbox_empleadoActionPerformed
@@ -482,11 +482,13 @@ resultadoBitacora = bitacoraRegistro.setIngresarBitacora(UsuarioConectado.getIdU
     private javax.swing.JLabel label5;
     private javax.swing.JLabel label6;
     private javax.swing.JLabel label7;
+    private javax.swing.JLabel label8;
     private javax.swing.JLabel lb;
     private javax.swing.JLabel lb2;
     private javax.swing.JLabel lbusu;
     private javax.swing.JTable tablaCuentas_bancarias;
     private javax.swing.JTextField txtBanco;
+    private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtMoneda;
     private javax.swing.JTextField txtSaldo;
     private javax.swing.JTextField txtTipoCuenta;

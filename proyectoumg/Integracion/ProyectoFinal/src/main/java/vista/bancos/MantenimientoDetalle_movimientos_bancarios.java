@@ -72,11 +72,13 @@ int APLICACION=110;
         detalle_movimientos_bancariosDAO dao = new detalle_movimientos_bancariosDAO();
         detalleAConsultar.setIdDetalle(Integer.parseInt(txtbuscado.getText()));
         detalleAConsultar = dao.query(detalleAConsultar);
+        
         txtIdMovimiento.setText(Integer.toString(detalleAConsultar.getIdMovimiento()));
         txtIdTipoOperacion.setText(Integer.toString(detalleAConsultar.getIdTipoOperacion()));
         txtIdTipoPago.setText(Integer.toString(detalleAConsultar.getIdTipoPago()));
         txtTipoMovimiento.setText(detalleAConsultar.getTipoMovimiento());
         txtMonto.setText(Float.toString(detalleAConsultar.getMonto()));
+        
         Bitacora bitacoraRegistro = new Bitacora();
         bitacoraRegistro.setIngresarBitacora(UsuarioConectado.getIdUsuario(), APLICACION, "Buscar Datos detalle_movimientos_bancarios");
     }
@@ -241,6 +243,11 @@ int APLICACION=110;
 
         txtTipoMovimiento.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         txtTipoMovimiento.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        txtTipoMovimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTipoMovimientoActionPerformed(evt);
+            }
+        });
 
         txtMonto.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         txtMonto.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
@@ -482,6 +489,10 @@ private Connection connectio = null;
         }
         
     }//GEN-LAST:event_btnReporteActionPerformed
+
+    private void txtTipoMovimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTipoMovimientoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTipoMovimientoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
