@@ -4,9 +4,19 @@ import Modelo.bancos.BancoDAO;
 import Controlador.bancos.bancos;
 import Controlador.seguridad.Bitacora;
 import Controlador.seguridad.UsuarioConectado;
+import Modelo.Conexion;
 import java.io.File;
+import java.sql.Connection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 //MANTENIMIENTO CREADO POR MISHEL LOEIZA 9959-23-3457
 public class MantenimientoBancos extends javax.swing.JInternalFrame {
 int APLICACION=103;
@@ -104,6 +114,7 @@ int APLICACION=103;
         txtStatus = new javax.swing.JTextField();
         label10 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
+        btnreporteBancos = new javax.swing.JButton();
 
         lb2.setForeground(new java.awt.Color(204, 204, 204));
         lb2.setText(".");
@@ -240,6 +251,13 @@ int APLICACION=103;
             }
         });
 
+        btnreporteBancos.setText("Reporte");
+        btnreporteBancos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnreporteBancosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -300,6 +318,9 @@ int APLICACION=103;
                         .addGap(70, 70, 70))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButton2)
+                        .addGap(135, 135, 135))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnreporteBancos)
                         .addGap(135, 135, 135)))
                 .addComponent(label4)
                 .addGap(46, 46, 46)
@@ -363,7 +384,9 @@ int APLICACION=103;
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jButton1)))
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnreporteBancos)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
@@ -482,7 +505,7 @@ llenadoDeTablas();
     }//GEN-LAST:event_cbox_empleadoActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-      // TODO add your handling code here:
+        // TODO add your handling code here:
         try {
             if ((new File("src\\main\\java\\ayudas\\banco\\AyudaBancoss.chm")).exists()) {
                 Process p = Runtime
@@ -505,6 +528,31 @@ llenadoDeTablas();
     private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmailActionPerformed
+private Connection connectio = null;
+    private void btnreporteBancosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnreporteBancosActionPerformed
+        // TODO add your handling code here:
+        
+            Map p = new HashMap();
+        JasperReport report;
+        JasperPrint print;
+
+        try {
+            connectio = Conexion.getConnection();
+            report = JasperCompileManager.compileReport(new File("").getAbsolutePath()
+                    + "/src/main/java/reporte/banco/reporteBanco.jrxml");
+//
+            print = JasperFillManager.fillReport(report, p, connectio);
+
+            JasperViewer view = new JasperViewer(print, false);
+
+            view.setTitle("Prueba reporte");
+            view.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al generar el reporte: " + e.getMessage());
+        }
+        
+    }//GEN-LAST:event_btnreporteBancosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -514,6 +562,7 @@ llenadoDeTablas();
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegistrar;
+    private javax.swing.JButton btnreporteBancos;
     private javax.swing.JComboBox<String> cbox_empleado;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

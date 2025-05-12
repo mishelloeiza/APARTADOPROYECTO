@@ -435,25 +435,24 @@ public class MantenimientoTipo_cuenta extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
     private Connection connectio = null;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Map p = new HashMap();
+       Map p = new HashMap();
         JasperReport report;
         JasperPrint print;
 
         try {
-            connectio = Conexion.getConnection(); // Asegúrate de que esta conexión funcione
-            report = JasperCompileManager.compileReport(
-                    new File("").getAbsolutePath() + "/src/main/java/reporte/reporteTipocuenta.jrxml"
-            );
-
+            connectio = Conexion.getConnection();
+            report = JasperCompileManager.compileReport(new File("").getAbsolutePath()
+                    + "/src/main/java/reporte/banco/reporteTipoCuenta2.jrxml");
+//
             print = JasperFillManager.fillReport(report, p, connectio);
 
             JasperViewer view = new JasperViewer(print, false);
-            view.setTitle("Reporte Tipo Cuenta");
-            view.setVisible(true);
 
+            view.setTitle("Prueba reporte");
+            view.setVisible(true);
         } catch (Exception e) {
-            e.printStackTrace(); // Imprime el error en la consola de NetBeans
-            JOptionPane.showMessageDialog(null, "Error al generar el reporte:\n" + e.getMessage());
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al generar el reporte: " + e.getMessage());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

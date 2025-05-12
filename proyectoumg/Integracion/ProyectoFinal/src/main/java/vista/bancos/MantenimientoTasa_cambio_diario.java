@@ -14,12 +14,21 @@ import javax.swing.table.DefaultTableModel;
 import java.io.File;
 import Controlador.seguridad.Bitacora;
 import Controlador.seguridad.UsuarioConectado;
+import Modelo.Conexion;
 import Modelo.bancos.tasa_cambio_diarioDAO;
 import java.awt.Color;
+import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 //MANTENIMINETO CREADO POR Ruddyard Eduardo Castro Chavez 
 
@@ -45,7 +54,7 @@ public class MantenimientoTasa_cambio_diario extends javax.swing.JInternalFrame 
         modelo.addColumn("Fecha-Hora");
         
         List<tasa_cambio_diario> tasas = tasaDAO.select();
-        tablaTipo_operacion_bancaria.setModel(modelo);
+        tablaTasaCambioDiario.setModel(modelo);
         
         String[] dato = new String[3];
         for (tasa_cambio_diario tasa : tasas) {
@@ -119,7 +128,7 @@ public class MantenimientoTasa_cambio_diario extends javax.swing.JInternalFrame 
         txtValorPromedio = new javax.swing.JTextField();
         btnLimpiar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaTipo_operacion_bancaria = new javax.swing.JTable();
+        tablaTasaCambioDiario = new javax.swing.JTable();
         cbox_empleado = new javax.swing.JComboBox<>();
         label4 = new javax.swing.JLabel();
         txtFechaHora = new javax.swing.JTextField();
@@ -127,6 +136,7 @@ public class MantenimientoTasa_cambio_diario extends javax.swing.JInternalFrame 
         lb = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        btnReporte = new javax.swing.JButton();
 
         lb2.setForeground(new java.awt.Color(204, 204, 204));
         lb2.setText(".");
@@ -160,7 +170,7 @@ public class MantenimientoTasa_cambio_diario extends javax.swing.JInternalFrame 
         });
 
         label1.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        label1.setText("Tipo operacion bancaria");
+        label1.setText("Tasa de cambio Diario ");
         label1.setToolTipText("");
 
         btnModificar.setText("Modificar");
@@ -171,7 +181,7 @@ public class MantenimientoTasa_cambio_diario extends javax.swing.JInternalFrame 
         });
 
         label3.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        label3.setText("Val Prom");
+        label3.setText("Valor al dia");
 
         txtValorPromedio.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         txtValorPromedio.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
@@ -183,8 +193,8 @@ public class MantenimientoTasa_cambio_diario extends javax.swing.JInternalFrame 
             }
         });
 
-        tablaTipo_operacion_bancaria.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        tablaTipo_operacion_bancaria.setModel(new javax.swing.table.DefaultTableModel(
+        tablaTasaCambioDiario.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        tablaTasaCambioDiario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -200,9 +210,9 @@ public class MantenimientoTasa_cambio_diario extends javax.swing.JInternalFrame 
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tablaTipo_operacion_bancaria);
-        if (tablaTipo_operacion_bancaria.getColumnModel().getColumnCount() > 0) {
-            tablaTipo_operacion_bancaria.getColumnModel().getColumn(0).setResizable(false);
+        jScrollPane1.setViewportView(tablaTasaCambioDiario);
+        if (tablaTasaCambioDiario.getColumnModel().getColumnCount() > 0) {
+            tablaTasaCambioDiario.getColumnModel().getColumn(0).setResizable(false);
         }
 
         cbox_empleado.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
@@ -230,6 +240,13 @@ public class MantenimientoTasa_cambio_diario extends javax.swing.JInternalFrame 
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
+            }
+        });
+
+        btnReporte.setText("Reporte");
+        btnReporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReporteActionPerformed(evt);
             }
         });
 
@@ -279,6 +296,9 @@ public class MantenimientoTasa_cambio_diario extends javax.swing.JInternalFrame 
                                     .addGap(70, 70, 70))
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                     .addComponent(jButton2)
+                                    .addGap(135, 135, 135))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(btnReporte)
                                     .addGap(135, 135, 135)))
                             .addComponent(label4)
                             .addGap(46, 46, 46)
@@ -325,7 +345,9 @@ public class MantenimientoTasa_cambio_diario extends javax.swing.JInternalFrame 
                     .addGroup(layout.createSequentialGroup()
                         .addGap(34, 34, 34)
                         .addComponent(jButton1)))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnReporte)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
@@ -452,10 +474,10 @@ public class MantenimientoTasa_cambio_diario extends javax.swing.JInternalFrame 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         try {
-            if ((new File("src\\main\\java\\ayudas\\ProcesoMayor.chm")).exists()) {
+            if ((new File("src\\main\\java\\ayudas\\banco\\AyudasTasaCambioDiario.chm")).exists()) {
                 Process p = Runtime
                         .getRuntime()
-                        .exec("rundll32 url.dll,FileProtocolHandler src\\main\\java\\ayudas\\ProcesoMayor.chm");
+                        .exec("rundll32 url.dll,FileProtocolHandler src\\main\\java\\ayudas\\banco\\AyudasTasaCambioDiario.chm");
                 p.waitFor();
             } else {
                 System.out.println("La ayuda no Fue encontrada");
@@ -465,6 +487,31 @@ public class MantenimientoTasa_cambio_diario extends javax.swing.JInternalFrame 
             ex.printStackTrace();
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+ private Connection connectio = null;
+    private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
+        // TODO add your handling code here:
+        
+            
+        Map p = new HashMap();
+        JasperReport report;
+        JasperPrint print;
+
+        try {
+            connectio = Conexion.getConnection();
+            report = JasperCompileManager.compileReport(new File("").getAbsolutePath()
+                    + "/src/main/java/reporte/banco/tasaCambioDiario.jrxml");
+//
+            print = JasperFillManager.fillReport(report, p, connectio);
+
+            JasperViewer view = new JasperViewer(print, false);
+
+            view.setTitle("Prueba reporte");
+            view.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al generar el reporte: " + e.getMessage());
+        }
+    }//GEN-LAST:event_btnReporteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -473,6 +520,7 @@ public class MantenimientoTasa_cambio_diario extends javax.swing.JInternalFrame 
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegistrar;
+    private javax.swing.JButton btnReporte;
     private javax.swing.JComboBox<String> cbox_empleado;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -484,7 +532,7 @@ public class MantenimientoTasa_cambio_diario extends javax.swing.JInternalFrame 
     private javax.swing.JLabel lb;
     private javax.swing.JLabel lb2;
     private javax.swing.JLabel lbusu;
-    private javax.swing.JTable tablaTipo_operacion_bancaria;
+    private javax.swing.JTable tablaTasaCambioDiario;
     private javax.swing.JTextField txtFechaHora;
     private javax.swing.JTextField txtValorPromedio;
     private javax.swing.JTextField txtbuscado;
