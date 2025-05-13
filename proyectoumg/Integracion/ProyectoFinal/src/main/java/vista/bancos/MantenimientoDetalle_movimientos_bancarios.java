@@ -39,7 +39,7 @@ int APLICACION=110;
         List<detalle_movimientos_bancarios> salon = detalle_movimientos_bancariosDAO.select();
         cbox_empleado.addItem("Seleccione una opción");
         for (int i = 0; i < salon.size(); i++) {
-            cbox_empleado.addItem(salon.get(i).getTipoMovimiento());
+            cbox_empleado.addItem(salon.get(i).getDescripcion());
         }
     }
     
@@ -47,11 +47,11 @@ int APLICACION=110;
     public void llenadoDeTablas() {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("id_detalle");
-        modelo.addColumn("id_movimiento");
+        modelo.addColumn("id_movimiento_bancario");
         modelo.addColumn("id_tipo_operacion");
         modelo.addColumn("id_tipo_pago");
-        modelo.addColumn("tipo_movimiento");
         modelo.addColumn("monto");
+        modelo.addColumn("descripcion");
         detalle_movimientos_bancariosDAO detalle_movimientos_bancariosDAO = new detalle_movimientos_bancariosDAO();
         List<detalle_movimientos_bancarios> lista = detalle_movimientos_bancariosDAO.select();
         tablaDetalle_movimientos_bancarios.setModel(modelo);
@@ -61,8 +61,8 @@ int APLICACION=110;
             dato[1] = Integer.toString(detalle.getIdMovimiento());
             dato[2] = Integer.toString(detalle.getIdTipoOperacion());
             dato[3] = Integer.toString(detalle.getIdTipoPago());
-            dato[4] = detalle.getTipoMovimiento();
-            dato[5] = Float.toString(detalle.getMonto());
+            dato[4] = Float.toString(detalle.getMonto());
+            dato[5] = detalle.getDescripcion();
             modelo.addRow(dato);
         }
     }
@@ -76,8 +76,8 @@ int APLICACION=110;
         txtIdMovimiento.setText(Integer.toString(detalleAConsultar.getIdMovimiento()));
         txtIdTipoOperacion.setText(Integer.toString(detalleAConsultar.getIdTipoOperacion()));
         txtIdTipoPago.setText(Integer.toString(detalleAConsultar.getIdTipoPago()));
-        txtTipoMovimiento.setText(detalleAConsultar.getTipoMovimiento());
         txtMonto.setText(Float.toString(detalleAConsultar.getMonto()));
+        txtDescripcion.setText(detalleAConsultar.getDescripcion());
         
         Bitacora bitacoraRegistro = new Bitacora();
         bitacoraRegistro.setIngresarBitacora(UsuarioConectado.getIdUsuario(), APLICACION, "Buscar Datos detalle_movimientos_bancarios");
@@ -120,7 +120,7 @@ int APLICACION=110;
         label6 = new javax.swing.JLabel();
         label7 = new javax.swing.JLabel();
         txtIdTipoOperacion = new javax.swing.JTextField();
-        txtTipoMovimiento = new javax.swing.JTextField();
+        txtDescripcion = new javax.swing.JTextField();
         txtMonto = new javax.swing.JTextField();
         label8 = new javax.swing.JLabel();
         label9 = new javax.swing.JLabel();
@@ -241,11 +241,11 @@ int APLICACION=110;
         txtIdTipoOperacion.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         txtIdTipoOperacion.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
-        txtTipoMovimiento.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        txtTipoMovimiento.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
-        txtTipoMovimiento.addActionListener(new java.awt.event.ActionListener() {
+        txtDescripcion.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtDescripcion.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        txtDescripcion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTipoMovimientoActionPerformed(evt);
+                txtDescripcionActionPerformed(evt);
             }
         });
 
@@ -256,7 +256,7 @@ int APLICACION=110;
         label8.setText("Monto");
 
         label9.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        label9.setText("Tipo Movimiento");
+        label9.setText("Descripcion");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -291,20 +291,18 @@ int APLICACION=110;
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(label7)
-                                    .addComponent(label6))
+                                    .addComponent(label6)
+                                    .addComponent(label8))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtIdTipoOperacion, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtIdTipoPago, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtIdMovimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(label9)
-                                    .addComponent(label8))
-                                .addGap(28, 28, 28)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtTipoMovimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(txtIdMovimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(label9)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -344,12 +342,12 @@ int APLICACION=110;
                             .addComponent(txtIdTipoPago, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(label9)
-                            .addComponent(txtTipoMovimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(label8))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(label8)
-                            .addComponent(txtMonto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(label9)
+                            .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnRegistrar)
@@ -390,8 +388,8 @@ int APLICACION=110;
         detalleAInsertar.setIdMovimiento(Integer.parseInt(txtIdMovimiento.getText()));
         detalleAInsertar.setIdTipoOperacion(Integer.parseInt(txtIdTipoOperacion.getText()));
         detalleAInsertar.setIdTipoPago(Integer.parseInt(txtIdTipoPago.getText()));
-        detalleAInsertar.setTipoMovimiento(txtTipoMovimiento.getText());
         detalleAInsertar.setMonto(Float.parseFloat(txtMonto.getText()));
+        detalleAInsertar.setDescripcion(txtDescripcion.getText());
         dao.insert(detalleAInsertar);
         llenadoDeTablas();
         Bitacora bitacoraRegistro = new Bitacora();
@@ -411,8 +409,8 @@ int APLICACION=110;
         detalleAActualizar.setIdMovimiento(Integer.parseInt(txtIdMovimiento.getText()));
         detalleAActualizar.setIdTipoOperacion(Integer.parseInt(txtIdTipoOperacion.getText()));
         detalleAActualizar.setIdTipoPago(Integer.parseInt(txtIdTipoPago.getText()));
-        detalleAActualizar.setTipoMovimiento(txtTipoMovimiento.getText());
         detalleAActualizar.setMonto(Float.parseFloat(txtMonto.getText()));
+        detalleAActualizar.setDescripcion(txtDescripcion.getText());
         dao.update(detalleAActualizar);
         llenadoDeTablas();
         Bitacora bitacoraRegistro = new Bitacora();
@@ -424,8 +422,8 @@ int APLICACION=110;
         txtIdMovimiento.setText("");
         txtIdTipoOperacion.setText("");
         txtIdTipoPago.setText("");
-        txtTipoMovimiento.setText("");
         txtMonto.setText("");
+        txtDescripcion.setText("");
         txtbuscado.setText("");
         btnRegistrar.setEnabled(true);
         btnModificar.setEnabled(true);
@@ -490,9 +488,9 @@ private Connection connectio = null;
         
     }//GEN-LAST:event_btnReporteActionPerformed
 
-    private void txtTipoMovimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTipoMovimientoActionPerformed
+    private void txtDescripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescripcionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtTipoMovimientoActionPerformed
+    }//GEN-LAST:event_txtDescripcionActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -516,11 +514,11 @@ private Connection connectio = null;
     private javax.swing.JLabel lb2;
     private javax.swing.JLabel lbusu;
     private javax.swing.JTable tablaDetalle_movimientos_bancarios;
+    private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtIdMovimiento;
     private javax.swing.JTextField txtIdTipoOperacion;
     private javax.swing.JTextField txtIdTipoPago;
     private javax.swing.JTextField txtMonto;
-    private javax.swing.JTextField txtTipoMovimiento;
     private javax.swing.JTextField txtbuscado;
     // End of variables declaration//GEN-END:variables
 }
