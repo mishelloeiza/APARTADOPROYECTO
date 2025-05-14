@@ -25,36 +25,10 @@
 		<band height="35" splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="32" splitType="Stretch">
-			<staticText>
-				<reportElement x="54" y="2" width="100" height="20" uuid="00f03f8d-9032-4c2d-b04f-f6b77a55b48e"/>
-				<text><![CDATA[id_tipo_pago]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="194" y="2" width="100" height="20" uuid="0f9a1b8c-d301-4c90-97e9-91b83f418c0a"/>
-				<text><![CDATA[tipo_pago]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="328" y="2" width="100" height="20" uuid="4671cd03-69c0-498b-afc6-2cb5a36cc4b7"/>
-				<text><![CDATA[status]]></text>
-			</staticText>
-		</band>
+		<band height="32" splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="43" splitType="Stretch">
-			<textField>
-				<reportElement x="54" y="10" width="100" height="20" uuid="06fd7f19-0154-4064-ad20-8fb2b6e04cf8"/>
-				<textFieldExpression><![CDATA[$F{id_tipo_pago}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="194" y="10" width="100" height="20" uuid="fb461e75-038f-4d27-8cb0-78def64d98c4"/>
-				<textFieldExpression><![CDATA[$F{tipo_pago}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="328" y="10" width="100" height="20" uuid="b70689b7-dac2-41e4-becb-5057a82e5eec"/>
-				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
-			</textField>
-		</band>
+		<band height="43" splitType="Stretch"/>
 	</detail>
 	<columnFooter>
 		<band height="45" splitType="Stretch"/>

@@ -42,7 +42,7 @@
 			</frame>
 			<image>
 				<reportElement positionType="FixRelativeToBottom" x="185" y="12" width="205" height="100" uuid="65fd713e-9cfc-4a18-86cd-68551afcff6f"/>
-				<imageExpression><![CDATA["C:\\Users\\Ruddyard\\Desktop\\ProyectoFinal\\src\\main\\java\\reporte\\banco\\imgLogoBanco.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["src\\main\\java\\reporte\\banco\\imgLogoBanco.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</title>

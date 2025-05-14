@@ -539,7 +539,7 @@ private Connection connectio = null;
         try {
             connectio = Conexion.getConnection();
             report = JasperCompileManager.compileReport(new File("").getAbsolutePath()
-                    + "/src/main/java/reporte/banco/platilla2.jrxml");
+                    + "/src/main/java/reporte/banco/reporteBanco.jrxml");
 //
             print = JasperFillManager.fillReport(report, p, connectio);
 
