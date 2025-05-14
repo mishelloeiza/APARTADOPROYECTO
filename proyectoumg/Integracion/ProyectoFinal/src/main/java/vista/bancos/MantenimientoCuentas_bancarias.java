@@ -383,21 +383,39 @@ public class MantenimientoCuentas_bancarias extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+  int fila = tablaCuentas_bancarias.getSelectedRow();
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(null, "Debes seleccionar una fila para modificar.");
+        return;
+    }
 
-        // TODO add your handling code here:
-        cuentas_bancariasDAO dao = new cuentas_bancariasDAO();
-        cuentas_bancarias cuentaAActualizar = new cuentas_bancarias();
-        
-        cuentaAActualizar.setId_banco(Integer.parseInt(txtBanco.getText()));
-        cuentaAActualizar.setId_tipo_cuenta(Integer.parseInt(txtTipoCuenta.getText()));
-        cuentaAActualizar.setId_tipo_moneda(Integer.parseInt(txtMoneda.getText()));
-        cuentaAActualizar.setSaldo(Float.parseFloat(txtSaldo.getText()));
-        dao.update(cuentaAActualizar);
-        
+    int idCuenta = Integer.parseInt(tablaCuentas_bancarias.getValueAt(fila, 0).toString()); // Columna 0 = id_cuenta
+
+    cuentas_bancarias cuenta = new cuentas_bancarias();
+    cuenta.setId_cuenta(idCuenta); // MUY IMPORTANTE
+    cuenta.setId_banco(Integer.parseInt(txtBanco.getText()));
+    cuenta.setId_tipo_cuenta(Integer.parseInt(txtTipoCuenta.getText()));
+    cuenta.setId_tipo_moneda(Integer.parseInt(txtMoneda.getText()));
+    cuenta.setSaldo(Float.parseFloat(txtSaldo.getText()));
+
+    cuentas_bancariasDAO dao = new cuentas_bancariasDAO();
+    int resultado = dao.update(cuenta);
+
+    if (resultado > 0) {
+        JOptionPane.showMessageDialog(null, "Cuenta modificada correctamente.");
         llenadoDeTablas();
-        
-        Bitacora bitacoraRegistro = new Bitacora();
-        bitacoraRegistro.setIngresarBitacora(UsuarioConectado.getIdUsuario(), APLICACION, "Modificar Datos cuentas_bancarias");
+    } else {
+        JOptionPane.showMessageDialog(null, "No se pudo modificar la cuenta. Verifica el ID.");
+    }
+
+    Bitacora bitacoraRegistro = new Bitacora();
+    bitacoraRegistro.setIngresarBitacora(
+        UsuarioConectado.getIdUsuario(),
+        APLICACION,
+        "Modificar Datos cuentas_bancarias"
+    );
+   
+             
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
@@ -476,4 +494,8 @@ public class MantenimientoCuentas_bancarias extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtTipoCuenta;
     private javax.swing.JTextField txtbuscado;
     // End of variables declaration//GEN-END:variables
+
+    private int obtenerIdCuentaSeleccionada() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

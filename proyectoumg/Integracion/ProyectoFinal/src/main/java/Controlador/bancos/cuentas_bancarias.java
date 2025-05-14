@@ -67,5 +67,9 @@ public class cuentas_bancarias {
     public void setSaldo(float saldo) {
         this.saldo = saldo;
     }
+
+    public void setId_cuenta_bancaria(int idCuentaSeleccionada) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
  }
     
