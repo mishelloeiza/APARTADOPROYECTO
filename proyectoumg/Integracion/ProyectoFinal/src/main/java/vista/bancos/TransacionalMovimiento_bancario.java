@@ -430,7 +430,7 @@ public class TransacionalMovimiento_bancario extends javax.swing.JInternalFrame 
             llenadoDeTablas();
             
             Bitacora bitacoraRegistro = new Bitacora();
-            bitacoraRegistro.setIngresarBitacora(UsuarioConectado.getIdUsuario(), APLICACION, "Modificar Movimiento");
+            bitacoraRegistro.setIngresarBitacora(UsuarioConectado.getIdUsuario(), APLICACION, "Registar Movimiento");
                 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al modificar: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -480,7 +480,7 @@ public class TransacionalMovimiento_bancario extends javax.swing.JInternalFrame 
         txtFecha.setText(formatter.format(LocalDateTime.now()));
         txtFecha.setForeground(Color.GRAY);
         Bitacora bitacoraRegistro = new Bitacora();
-        resultadoBitacora = bitacoraRegistro.setIngresarBitacora(UsuarioConectado.getIdUsuario(), APLICACION,  "Limpiar Datos Tasa de Cambio Diario");    
+        resultadoBitacora = bitacoraRegistro.setIngresarBitacora(UsuarioConectado.getIdUsuario(), APLICACION,  "Se limpio Transaccional Movimiento bancario");    
    
 
         // TODO add your handling code here:
